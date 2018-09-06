@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	 crossorigin="anonymous">
+    
+
+    <title>Train Me</title>
+    <style>
+            td {margin: auto}
+            tr {margin: auto}
+            </style>
+</head>
+
+<body>
+
+	<div class="jumbotron">
+		<h2> Welcome to Chatbot Analysis Center, Avartan 2018</h2>
+</div>
+
+<div style="color:white;background-color:red; height:50px ;width :{{psug_chats}}%;">Suggestions : {{nsug_chats}}</div>
+<br>
+<div style="color:white;background-color:steelblue; height:50px ;width :{{pnsug_chats}}%;">Satisfactory Replies : {{nunsug_chats}}</div>
+<br><br>
+<div style="border:2px solid grey;width:50%;float:left;"><center>Satisfactory Replies</center>
+    <table>
+    <tr><td>Question</td><td>Answer</td></tr>
+    {% for i in unsug_chats %}
+    <tr><td>{{i.que}}</td><td>{{i.pro_ans}}</td></tr>
+    {% endfor%}
+    </table>
+</div>
+
+<div style="border:2px solid grey;width:50%;float:right;"> <center>Unsatisfactory Replies</center>
+    <table>
+    <tr><td>Question</td><td>Bot Answer</td><td>Suggetsed Answer</td></tr>
+    {% for i in sug_chats %}
+    <tr><td>{{i.que}}</td><td>{{i.pro_ans}}</td><td>{{i.sug_ans}}</td></tr>
+{% endfor%}
+</table>
+</div>
+Instructions : Write the question in the box provided; an answer will be displayed.
+If you are not satisfied by the answer write your name and suggestion and press submit again.
+
+</div>
+
+</body>
+</html>

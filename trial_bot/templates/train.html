@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+	 crossorigin="anonymous">
+
+
+	<title>Train Me</title>
+</head>
+
+<body>
+
+	<div class="jumbotron">
+		<h2> Welcome to Chatbot Training Ground, Avartan 2018</h2>
+
+		<div class="container">
+			<br>
+			<br>
+			<form action="{% url 'trial_bot:save_conv' %}" method="post">
+
+				{% csrf_token %}
+				<label for="que">Question</label>
+				<input type="text" name="que" id="que">
+				<input type="submit" name="submit" class="btn btn-primary" id='submit_btn'>
+				<br> <br>Answer :
+				<span id="ans"></span>
+				<br>
+
+				<br> Not Satisfied by the answer, Suggest here :-
+				<br><br>
+				<label for="sug_ans">Suggestion</label>
+				<input type="text" name="sug_ans" value="" id="id1"><br>
+				<label for="user">Name</label>
+				<input type="text" name="user" id="user">
+				<br>
+			</form>
+		</div>
+	</div>
+
+
+
+
+	<script>
+
+		var btn = document.querySelector('#submit_btn')
+
+		btn.addEventListener('click', e => {
+			e.preventDefault()
+			
+
+			$.ajax({
+				type: 'POST',
+				url: 'http://adarshshrivastava001.pythonanywhere.com/bot/',
+				data: {
+					'que': document.getElementById("que").value
+				},
+				dataType: 'json',
+				success: function (data) {
+					console.log(data)
+					document.getElementById("ans").innerHTML = data.ans;
+
+					save_locally()
+				}
+			})
+		})
+
+		save_locally = () => {
+			fetch('/home/train/save/', {
+				method: 'post',
+				body: JSON.stringify({
+					'que': document.getElementById("que").value,
+					'pro_ans': document.getElementById('ans').innerHTML,
+					'sug_ans': document.querySelector('[name=sug_ans]').value,
+					'user': document.querySelector('[name=user]').value
+				})
+			})  
+
+				
+				
+				.then(d => d.json())
+				.then(d => {
+					console.log(d)
+				})
+				.catch(err => console.error(err))
+
+				document.querySelector('[name=sug_ans]').value=""
+		}
+
+
+	</script>
+
+
+	<script src="//cdn.jsdelivr.net/npm/medium-editor@5.23.2/dist/js/medium-editor.min.js"></script>
+
+
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+	 crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+	 crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+	 crossorigin="anonymous"></script>
+
+	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
+</body>
+
+</html>
